@@ -3,5 +3,26 @@
 {% block title %}title{% endblock title %}
 
 {% block content %}
-<h1>Sign up</h1>
+    <div class="wrapper">
+        <div class="title"><span>Signup Form</span></div>
+            <form action="#">
+            <div class="row">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Email or Phone" required />
+            </div>
+            <div class="row">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required />
+            </div>
+            <div class="row">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Confirm Password" required />
+            </div>
+            <div class="row button">
+                <input type="submit" value="Signup" />
+            </div>
+            <div class="signup-link">Already a member? <a href={% url "signin" %}>Login now</a></div>
+            </form>
+        </div>
+    </div>
 {% endblock content %}
