@@ -5,5 +5,28 @@ Home
 {% endblock title %}
 
 {% block content %}
-<h1>Hello world</h1>
+<div class="wrapper">
+    <div class="title">
+        <span>Welcome Back!</span>
+    </div>
+    <div style="padding: 25px 35px; text-align: center;">
+        <div style="font-size: 22px; color: #16a085; margin-bottom: 15px;">
+            <i class="fas fa-user-circle fa-2x"></i>
+        </div>
+        <div style="font-size: 24px; color: #333; margin-bottom: 10px;">
+            {{ request.user.username }}
+        </div>
+        <div style="color: #666; font-size: 16px;">
+            We're glad to see you again
+        </div>
+            <div class="row button">
+                <a href="{% url 'logout' %}" class="row button">
+                    <input type="button" value="Logout" style="width: 100%;" />
+                </a>
+            </div>
+    </div>
+</div>
+
+
+
 {% endblock content %}

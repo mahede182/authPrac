@@ -5,14 +5,24 @@
 {% block content %}
     <div class="wrapper">
         <div class="title"><span>Login Form</span></div>
-            <form action="#">
+            <form action="#" method="post">
+                {% csrf_token %}
+                <!-- This displays the form fields defined in SignInForm -->
+                <!-- Each field (username and password) will be wrapped in <p> tags -->
+                <!-- The form includes built-in validation and security features -->
+                {% comment %} {{ form.as_p }} {% endcomment %}
+                {% include 'accounts/message.html' %}
             <div class="row">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="Email or Phone" required />
+                {% comment %} <input type="text" placeholder="Email or Phone" required /> {% endcomment %}
+                {{ form.username }}
+                {{ form.username.errors }}
             </div>
             <div class="row">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Password" required />
+                {% comment %} <input type="password" placeholder="Password" required /> {% endcomment %}
+                {{ form.password }}
+                {{ form.password.errors }}
             </div>
             <div class="pass"><a href="#">Forgot password?</a></div>
             <div class="row button">
