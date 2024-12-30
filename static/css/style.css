@@ -124,3 +124,26 @@ form .button input:hover {
 form .signup-link a:hover {
   text-decoration: underline;
 }
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    width: 100%;
+    padding: 0.25rem 0;
+    margin-bottom: 10px;
+}
+
+.error-message p {
+    margin: 0;
+}
+
+.row {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+/* If the input has an error, add a red border */
+.error-message + input {
+    border-color: #dc3545;
+}

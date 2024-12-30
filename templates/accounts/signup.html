@@ -1,28 +1,66 @@
 {% extends '../base.html' %}
 
-{% block title %}title{% endblock title %}
+{% block title %}Registration{% endblock title %}
 
 {% block content %}
     <div class="wrapper">
         <div class="title"><span>Signup Form</span></div>
-            <form action="#">
+        <form action="#" method="post">
+            {% csrf_token %}
+            {% include 'accounts/message.html' %}
+            
             <div class="row">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="Email or Phone" required />
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error-message">
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
+
+            <div class="row">
+                <i class="fas fa-envelope"></i>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error-message">
+                        {% for error in form.email.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
             <div class="row">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Password" required />
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="error-message">
+                        {% for error in form.password.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
+
             <div class="row">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Confirm Password" required />
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}
+                    <div class="error-message">
+                        {% for error in form.confirm_password.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
+
             <div class="row button">
                 <input type="submit" value="Signup" />
             </div>
-            <div class="signup-link">Already a member? <a href={% url "signin" %}>Login now</a></div>
-            </form>
-        </div>
+            <div class="signup-link">Already a member? <a href="{% url 'signin' %}">Login now</a></div>
+        </form>
     </div>
 {% endblock content %}

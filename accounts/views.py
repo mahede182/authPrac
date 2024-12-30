@@ -1,15 +1,17 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, View
+# Django core imports
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 # A mixin for users who have logged in, which checks the login requirement
 from django.contrib.auth.mixins import LoginRequiredMixin
-# Create your views here.
-from .forms import SignInForm
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect
-from django.contrib import messages
-from .mixins import LogoutRequiredMixin
-from django.views.decorators.cache import never_cache
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.generic import TemplateView, View
+
+# Local imports
+from .forms import SignInForm, SignUpForm
+from .mixins import LogoutRequiredMixin
 
 @method_decorator(never_cache, name='dispatch')
 class Home(LoginRequiredMixin, TemplateView):
@@ -37,8 +39,28 @@ class Signin(LogoutRequiredMixin, View):
                 # return redirect('signup')
         return render(request, "accounts/signIn.html", {"form": form})
 
-class Signup(TemplateView):
+@method_decorator(never_cache, name='dispatch')
+class Signup(LogoutRequiredMixin, TemplateView):
     template_name = "accounts/signup.html"
+    form_class = SignUpForm
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, "Account created successfully! Please login.")
+            return redirect(self.success_url)
+        else:
+            # Check if the error is due to password mismatch
+            if 'Passwords do not match' in str(form.errors.get('__all__', '')):
+                messages.error(request, "Passwords do not match. Please try again.")
+        return render(request, self.template_name, {'form': form})
 
 class Logout(View):
     def get(self, request):
