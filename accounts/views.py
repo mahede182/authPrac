@@ -8,11 +8,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib import messages
 from .mixins import LogoutRequiredMixin
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
+
+@method_decorator(never_cache, name='dispatch')
 class Home(LoginRequiredMixin, TemplateView):
     login_url = 'signin'
     template_name = "accounts/home.html"
 
-
+@method_decorator(never_cache, name='dispatch')
 class Signin(LogoutRequiredMixin, View):
     def get(self, *args, **kwargs):
         form = SignInForm()
