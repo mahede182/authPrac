@@ -55,12 +55,17 @@ class Signup(LogoutRequiredMixin, TemplateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, "Account created successfully! Please login.")
+            # Log the user in after signup
+            login(request, user)
+            messages.success(request, "Account created successfully! Welcome!")
             return redirect(self.success_url)
         else:
             # Check if the error is due to password mismatch
             if 'Passwords do not match' in str(form.errors.get('__all__', '')):
                 messages.error(request, "Passwords do not match. Please try again.")
+            # Handle other validation errors
+            else:
+                messages.error(request, "Please correct the errors below.")
         return render(request, self.template_name, {'form': form})
 
 class Logout(View):
