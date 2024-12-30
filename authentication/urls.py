@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from accounts.views import Home, Signin, Signup, Logout
+from accounts.views import Home, Signin, Signup, Logout, CustomPasswordChangeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", Home.as_view(), name="home"),
     path("signin/", Signin.as_view(), name="signin"),
     path("signup/", Signup.as_view(), name="signup"),
-    path("logout/", Logout.as_view(), name="logout")
+    path("logout/", Logout.as_view(), name="logout"),
+    path('change-password/', CustomPasswordChangeView.as_view(), name='change_password'),
 ]

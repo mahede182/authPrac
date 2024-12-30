@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 # এটি বেস্ট প্র্যাকটিস
 User = get_user_model()
 # from django.contrib.auth.models import User
@@ -55,3 +56,19 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({
+            'placeholder': 'Current Password',
+            'class': 'input-field'
+        })
+        self.fields['new_password1'].widget.attrs.update({
+            'placeholder': 'New Password',
+            'class': 'input-field'
+        })
+        self.fields['new_password2'].widget.attrs.update({
+            'placeholder': 'Confirm New Password',
+            'class': 'input-field'
+        })

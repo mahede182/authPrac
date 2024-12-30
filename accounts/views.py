@@ -8,9 +8,10 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView, View
+from django.contrib.auth.views import PasswordChangeView
 
 # Local imports
-from .forms import SignInForm, SignUpForm
+from .forms import SignInForm, SignUpForm, CustomPasswordChangeForm
 from .mixins import LogoutRequiredMixin
 
 @method_decorator(never_cache, name='dispatch')
@@ -66,3 +67,13 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('signin')
+
+class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'accounts/change_password.html'
+    form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy('signin')
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Password changed successfully. Please login again.')
+        return response

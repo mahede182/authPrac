@@ -16,6 +16,9 @@ Home
         <div style="font-size: 24px; color: #333; margin-bottom: 10px;">
             {{ request.user.username }}
         </div>
+        {% if user.is_authenticated %}
+            <a href="{% url 'change_password' %}" class="change-password-link">Change Password</a>
+        {% endif %}
         <div style="color: #666; font-size: 16px;">
             We're glad to see you again
         </div>
