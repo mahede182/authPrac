@@ -7,13 +7,13 @@ from .forms import SignInForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib import messages
-
+from .mixins import LogoutRequiredMixin
 class Home(LoginRequiredMixin, TemplateView):
     login_url = 'signin'
     template_name = "accounts/home.html"
 
 
-class Signin(View):
+class Signin(LogoutRequiredMixin, View):
     def get(self, *args, **kwargs):
         form = SignInForm()
         context = {
