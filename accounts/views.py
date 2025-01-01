@@ -55,7 +55,7 @@ class Signup(LogoutRequiredMixin, TemplateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             user = form.save()
-            # Log the user in after signup
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
             messages.success(request, "Account created successfully! Welcome!")
             return redirect(self.success_url)
